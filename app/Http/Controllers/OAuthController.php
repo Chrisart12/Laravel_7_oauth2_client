@@ -11,9 +11,11 @@ class OAuthController extends Controller
     public function redirect()
     {
         $queries = http_build_query([
-            'client_id' => '4',
+            'client_id' => '3',
             'redirect_uri' => 'http://127.0.0.1:8001/oauth/callback',
-            'response_type' => 'code'
+            'response_type' => 'code',
+            'scope' => 'view-posts',
+            // 'scope' => 'view-posts view-user'
         ]);
     
         return redirect('http://localhost:8000/oauth/authorize?'. $queries);
@@ -25,8 +27,8 @@ class OAuthController extends Controller
 
         $response = Http::post('http://127.0.0.1:8000/oauth/token', [
             'grant_type' => 'authorization_code',
-            'client_id' => '4',
-            'client_secret' => 'xmLjntdv3wQRccx4MDLL1UW5VL8YcjOArtCLNFxA',
+            'client_id' => '3',
+            'client_secret' => 'YJFHmUprsn0ih50KZ0xai2wQ9P7qpNSHUnqQBGGZ',
             'redirect_uri' => 'http://127.0.0.1:8001/oauth/callback',
             'code' => $request->code
         ]);

@@ -13,7 +13,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
+                    {{-- {{ dd("eee", auth()->user()->token) }} --}}
                     @if (!auth()->user()->token)
                         <a href="oauth/redirect">Authorize from server</a>
                     @else
