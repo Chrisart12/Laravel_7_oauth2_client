@@ -40,7 +40,32 @@ class OAuthController extends Controller
 
         // dd($response);
         auth()->user()->token()->create([
-            'access_token' => $response['access_token']
+            'access_token' => $response['access_token'],
+            'expires_in' => $response['expires_in'],
+            'refresh_token' => $response['refresh_token']
+        ]);
+
+        return redirect('/home');
+    }
+
+    public function refresh(Request $request)
+    {
+        $response = Http::post('http://127.0.0.1:8000/oauth/token', [
+            'grant_type' => 'refresh_token',
+            'refresh_token' =>  auth()->user()->token->refresh_token,
+            'client_id' => '3',
+            'client_secret' => 'YJFHmUprsn0ih50KZ0xai2wQ9P7qpNSHUnqQBGGZ',
+            'redirect_uri' => 'http://127.0.0.1:8001/oauth/callback',
+            'scope' => 'view-posts',
+    
+        ]);
+        
+        $response = $response->json();
+// dd($response);
+        auth()->user()->token()->update([
+            'access_token' => $response['access_token'],
+            'expires_in' => $response['expires_in'],
+            'refresh_token' => $response['refresh_token']
         ]);
 
         return redirect('/home');

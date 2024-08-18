@@ -28,6 +28,10 @@ class HomeController extends Controller
         // dd("eeee", auth()->user()->token->access_token);
         $posts = [];
 
+        if (auth()->user()->token && auth()->user()->token->hasExpired()) {
+            return redirect('oauth/refresh');
+        }
+
         if (auth()->user()->token) {
             $response = Http::withHeaders([
                 'Accept' => 'application/json',
